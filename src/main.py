@@ -6,11 +6,12 @@ from flet import Page, app, View, Text, ElevatedButton, Column, Row
 #  https://www.youtube.com/watch?v=S64XGQiQp68
 #  https://www.youtube.com/watch?v=xr7vDSFXjW0
 #  https://www.youtube.com/watch?v=529LYDgRTgQ
+# 
 
 #  _______________________  47.18
 
 
-def main(page: Page):
+def main(page: Page) -> None:
     def route_change(e) -> None:
         page.views.clear()
         if page.route == "/":
