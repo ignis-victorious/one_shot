@@ -1,7 +1,11 @@
 #  _______________________
 #  Import LIBRARIES
 import flet as ft
+<<<<<<< HEAD
 from flet import Page, app, View, Text, ElevatedButton, Column, Row
+=======
+from flet import Page, app, Text, Switch
+>>>>>>> 5_theme_switcher
 #  Import FILES
 #  https://www.youtube.com/watch?v=S64XGQiQp68
 #  https://www.youtube.com/watch?v=xr7vDSFXjW0
@@ -11,6 +15,7 @@ from flet import Page, app, View, Text, ElevatedButton, Column, Row
 #  _______________________  47.18
 
 
+<<<<<<< HEAD
 def main(page: Page) -> None:
     def route_change(e) -> None:
         page.views.clear()
@@ -90,8 +95,33 @@ def main(page: Page) -> None:
 
     page.on_route_change = route_change
     page.go(route=page.route)
+=======
+# _________________ 54.00
+def main(page: Page) -> None:
+    page.title = "Theme Switcher App"
+    page.theme_mode = ft.ThemeMode.LIGHT
+    page.vertical_alignment = ft.MainAxisAlignment.CENTER
+
+    def theme_switcher(e) -> None:
+        if e.control.value:
+            page.theme_mode = ft.ThemeMode.DARK
+        else:
+            page.theme_mode = ft.ThemeMode.LIGHT
+        text.value = f"Current Theme : {page.theme_mode.value}"
+
+        page.update()
+
+    btn: Switch = Switch(label="Dark Mode", on_change=theme_switcher)
+    text: Text = Text(value=f"Current Theme : {page.theme_mode.value}", size=35)
+    page.add(text, btn)
+
+    # page.update()
+>>>>>>> 5_theme_switcher
 
 
 if __name__ == "__main__":
     app(target=main)
+<<<<<<< HEAD
     # app(target=main, view=ft.WEB_BROWSER)
+=======
+>>>>>>> 5_theme_switcher
