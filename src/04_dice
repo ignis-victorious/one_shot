@@ -6,13 +6,14 @@ from flet import Page, app, Text, ElevatedButton
 
 #  Import FILES
 #  https://www.youtube.com/watch?v=S64XGQiQp68
+#  https://www.youtube.com/watch?v=DHUl_KncLdU
 #  https://www.youtube.com/watch?v=xr7vDSFXjW0
 #  https://www.youtube.com/watch?v=529LYDgRTgQ
 
 #  _______________________
 
 
-# _________________ 1:12:20
+# _________________ 1:20:00
 def main(page: Page) -> None:
     page.title = "Dice rolls!"
     page.theme_mode = ft.ThemeMode.DARK

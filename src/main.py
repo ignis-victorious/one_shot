@@ -1,127 +1,82 @@
 #  _______________________
 #  Import LIBRARIES
+import random
 import flet as ft
-<<<<<<< HEAD
-from flet import Page, app, View, Text, ElevatedButton, Column, Row
-=======
-from flet import Page, app, Text, Switch
->>>>>>> 5_theme_switcher
+from flet import Page, app, Text, TextField, Column, ElevatedButton
 #  Import FILES
 #  https://www.youtube.com/watch?v=S64XGQiQp68
+#  https://www.youtube.com/watch?v=DHUl_KncLdU
 #  https://www.youtube.com/watch?v=xr7vDSFXjW0
 #  https://www.youtube.com/watch?v=529LYDgRTgQ
-# 
 
-#  _______________________  47.18
+# _________________ @ 1:20:00
 
 
-<<<<<<< HEAD
+def generate_number() -> int:
+    return random.randint(a=1, b=100)
+
+
 def main(page: Page) -> None:
-    def route_change(e) -> None:
-        page.views.clear()
-        if page.route == "/":
-            page.views.append(
-                View(
-                    route="/",
-                    controls=[
-                        Row(
-                            controls=[
-                                Text(
-                                    value="This is the Home Page. Press a butto to navigate:"
-                                ),
-                                # Text(value="Contact Page"),
-                            ]
-                        ),
-                        Row(
-                            controls=[
-                                ElevatedButton(
-                                    text="Go To About",
-                                    on_click=lambda _: page.go("/about"),
-                                ),
-                                ElevatedButton(
-                                    text="Goto Contact",
-                                    on_click=lambda _: page.go(route="/contact"),
-                                ),
-                            ]
-                        ),
-                        # Text(value="Home"),
-                        # ElevatedButton(
-                        #     text="Go To About", on_click=lambda _: page.go("/about")
-                        # ),
-                        # Text(value="Contact Page"),
-                        # ElevatedButton(
-                        #     text="Goto Contact",
-                        #     on_click=lambda _: page.go(route="/contact"),
-                        # ),
-                    ],
-                )
-            )
-        elif page.route == "/about":
-            page.views.append(
-                ft.View(
-                    route="/about",
-                    controls=[
-                        Text(value="This is the About Page"),
-                        ElevatedButton(
-                            text="Back", on_click=lambda _: page.go(route="/")
-                        ),
-                        ElevatedButton(
-                            text="Goto Contact",
-                            on_click=lambda _: page.go(route="/contact"),
-                        ),
-                    ],
-                )
-            )
-        elif page.route == "/contact":
-            page.views.append(
-                ft.View(
-                    route="/contact",
-                    controls=[
-                        Text(value="This is the Contact Page"),
-                        ElevatedButton(
-                            text="Goto Home Page", on_click=lambda _: page.go(route="/")
-                        ),
-                        Column(
-                            alignment=ft.MainAxisAlignment.CENTER,
-                            controls=[
-                                Text(value="Add here your Email and conctact number")
-                            ],
-                            spacing=20,
-                        ),
-                    ],
-                )
-            )
-        page.update()
-
-    page.on_route_change = route_change
-    page.go(route=page.route)
-=======
-# _________________ 54.00
-def main(page: Page) -> None:
-    page.title = "Theme Switcher App"
-    page.theme_mode = ft.ThemeMode.LIGHT
+    page.title = "Guess a number!"
+    page.theme_mode = ft.ThemeMode.DARK
+    page.padding = 20
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
+    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
 
-    def theme_switcher(e) -> None:
-        if e.control.value:
-            page.theme_mode = ft.ThemeMode.DARK
+    number_to_guess: int = generate_number()
+    print(number_to_guess)
+    text: Text = Text(value="Enter a Number (1-100) : ")
+    input_field: TextField = TextField(
+        label="Number:",
+        autofocus=True,
+        width=80,
+    )
+    guess_btn: ElevatedButton = ElevatedButton(
+        text="Check your guess",
+        on_click=lambda e: check_guess(
+            input_field=input_field, result_text=result_text
+        ),
+    )
+    result_text: Text = ft.Text(".")
+
+    def check_guess(input_field, result_text) -> None:
+        user_guess: int = int(input_field.value)
+        if user_guess == number_to_guess:
+            result_text.value = f"You guessed correctly!\n The number was {user_guess}"
+            print("Inside if")
+        elif user_guess < number_to_guess:
+            result_text.value = "Your guess is too low"
+            guess_btn.text = "New Game"
+            guess_btn.on_click = start_new_game
+            print("Inside high")
+        elif user_guess > number_to_guess:
+            result_text.value = "Your guess is too high"
+            print("Inside low")
         else:
-            page.theme_mode = ft.ThemeMode.LIGHT
-        text.value = f"Current Theme : {page.theme_mode.value}"
-
+            result_text.value = f"Sorry, the correct number was {number_to_guess}"
         page.update()
 
-    btn: Switch = Switch(label="Dark Mode", on_change=theme_switcher)
-    text: Text = Text(value=f"Current Theme : {page.theme_mode.value}", size=35)
-    page.add(text, btn)
+    def start_new_game(e) -> None:
+        nonlocal number_to_guess
+        number_to_guess = generate_number()
+        input_field.value = ""
+        guess_btn.text = "Check your guess"
+        result_text.value = ""
+        guess_btn.on_click = (
+            lambda e: check_guess(input_field=input_field, result_text=result_text),
+        )
+        page.update()
 
-    # page.update()
->>>>>>> 5_theme_switcher
+        # guess_btn.on_click = start_new_game
+
+    page.add(
+        Column(
+            alignment=ft.MainAxisAlignment.CENTER,
+            spacing=20,
+            controls=[text, input_field, guess_btn, result_text],
+        )
+    )
 
 
 if __name__ == "__main__":
     app(target=main)
-<<<<<<< HEAD
-    # app(target=main, view=ft.WEB_BROWSER)
-=======
->>>>>>> 5_theme_switcher
