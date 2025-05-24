@@ -1,30 +1,46 @@
 #  _______________________
 #  Import LIBRARIES
 import flet as ft
-from flet import Page, app, Text
+from flet import Page, app, Text, ElevatedButton
 #  Import FILES
+#  https://www.youtube.com/watch?v=S64XGQiQp68
+#  https://www.youtube.com/watch?v=xr7vDSFXjW0
+#  https://www.youtube.com/watch?v=529LYDgRTgQ
+
 #  _______________________
 
 
 def main(page: Page) -> None:
     page.title = "Manny's test"
 
-    # _________________ 1.18.00
+    counter  = Text(value="0",size=50)
 
-    # _________________ 1.18.00
+    def increase(e) -> None:
+        counter. value = str(int(counter.value) + 1)
+        counter. update()
+        btn: ElevatedButton = ElevatedButton("+", on_click=increase)
+    page. add ( counter, btn
+
+    # _________________ 42.18
+
+
+
+
+
+    # _________________ 24.10
     # text: Text = Text(value="Hello World", size=50)
     # page.add(text)
 
-    page.add(
-        ft.Container(
-            content=ft.Row(
-                controls=[
-                    Text(value="Left"),
-                    Text(value="center"),
-                    Text(value="Right"),
-                ],
-                alignment=ft.MainAxisAlignment.SPACE_EVENLY,
-            ),
+    # page.add(
+    #     ft.Container(
+    #         content=ft.Row(
+    #             controls=[
+    #                 Text(value="Left"),
+    #                 Text(value="center"),
+    #                 Text(value="Right"),
+    #             ],
+    #             alignment=ft.MainAxisAlignment.SPACE_EVENLY,
+    #         ),
             # content=ft.Icon(name=ft.Icons.ACCESS_TIME),
             # content=ft.Icon(name=ft.Icons.HOME),
             # content=ft.ListView(
@@ -44,22 +60,22 @@ def main(page: Page) -> None:
             #         ),
             #     ]
             # ),
-            # _________________ 1.18.00
             # content=Text(value="Hello World", size=24),
-            bgcolor="#000000",
-            # bgcolor="#aaaaaa",
-            # bgcolor="blue",
-            margin=10,
-            border_radius=10,
-        ),
-        ft.Tabs(
-            selected_index=0,
-            tabs=[
-                ft.Tab(text="Home", content=Text(value="This is the Home page")),
-                ft.Tab(text="About", content=Text(value="This is the About page")),
-                ft.Tab(text="Contact", content=Text(value="This is the Contact page")),
-            ],
-        ),
+        #     bgcolor="#000000",
+        #     # bgcolor="#aaaaaa",
+        #     # bgcolor="blue",
+        #     margin=10,
+        #     border_radius=10,
+        # ),
+        # ft.Tabs(
+        #     selected_index=0,
+        #     tabs=[
+        #         ft.Tab(text="Home", content=Text(value="This is the Home page")),
+        #         ft.Tab(text="About", content=Text(value="This is the About page")),
+        #         ft.Tab(text="Contact", content=Text(value="This is the Contact page")),
+        #     ],
+        # ),
+        # _________________ Start
         # Text(value="Some text here ...."),
         # Text(
         #     value="___________________________________________________________________________________________________"
@@ -71,7 +87,7 @@ def main(page: Page) -> None:
         #         ft.Text(value="List 3"),
         #     ]
         # ),
-    )
+    # )
 
     # page.add(
     #     Text(value="hello World"),
