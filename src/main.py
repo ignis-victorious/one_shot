@@ -1,63 +1,45 @@
 #  _______________________
 #  Import LIBRARIES
 import flet as ft
-from flet import Page, app, Text, ElevatedButton
+from flet import Page, app, ElevatedButton, Image, FilePicker, Column
 #  Import FILES
 #  https://www.youtube.com/watch?v=S64XGQiQp68
 #  https://www.youtube.com/watch?v=DHUl_KncLdU
 #  https://www.youtube.com/watch?v=xr7vDSFXjW0
 #  https://www.youtube.com/watch?v=529LYDgRTgQ
 
-# _________________ @ 2:00:00
-
-
-flashcards: list[tuple[str, str]] = [
-    ("What is the capital of France?", "Paris"),
-    ("Who wrote 'Romeo and Juliet'?", "William Shakespeare"),
-    ("What is the largest planet in our solar system?", "Jupiter"),
-    ("Who painted the Mona Lisa?", "Leonardo da Vinci"),
-    ("What is 5 + 7?", "12"),
-]
+# _________________ @ 2:07:08
 
 
 def main(page: Page) -> None:
-    page.title = "Flashcards app!"
+    page.title = "Image previewer"
     page.theme_mode = ft.ThemeMode.DARK
     page.padding = 20
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
 
-    current_card_index: int = 0
-    show_answer: bool = False
+    image_preview: Image = Image()
 
-    def next_flashcard(e) -> None:
-        nonlocal current_card_index
-        current_card_index += 1
-        if current_card_index >= len(flashcards):
-            current_card_index = 0
-        update_flashcard()
+    def on_file(e) -> None:
+        if e.files:
+            image_preview.src = e.files[0].path
+            page.update()
 
-    def flip_card(e) -> None:
-        nonlocal show_answer
-        show_answer = not show_answer
-        update_flashcard()
+    file_picker: FilePicker = FilePicker(on_result=on_file)
 
-    def update_flashcard() -> None:
-        question, answer = flashcards[current_card_index]
-        flashcard_label.value = question if not show_answer else answer
-        page.update()
+    page.add(
+        Column(
+            controls=[
+                ElevatedButton(
+                    text="Upload Image", on_click=lambda _: file_picker.pick_files()
+                ),
+                image_preview,
+            ],
+        ),
+        file_picker,
+    )
 
-    flashcard_label = Text("", size=24)
-    flip_button = ElevatedButton(text="Flip", on_click=flip_card)
-    next_button = ElevatedButton(text="Next", on_click=next_flashcard)
-
-    page.add(flashcard_label, flip_button, next_button)
-
-    update_flashcard()
-
-    # page.update()
-
-    page.add()
+    # page.add()
 
 
 if __name__ == "__main__":
