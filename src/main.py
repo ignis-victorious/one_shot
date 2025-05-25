@@ -1,7 +1,8 @@
 #  _______________________
 #  Import LIBRARIES
+import re
 import flet as ft
-from flet import Page, app, ElevatedButton, Column, Row, Colors, Container
+from flet import Page, app, Text, TextField
 #  Import FILES
 #  https://www.youtube.com/watch?v=S64XGQiQp68
 #  https://www.youtube.com/watch?v=DHUl_KncLdU
@@ -12,56 +13,51 @@ from flet import Page, app, ElevatedButton, Column, Row, Colors, Container
 
 
 def main(page: Page) -> None:
-    page.title = "An app to draw"
-    page.theme_mode = ft.ThemeMode.DARK
+    page.title = "Password strength checker"
+    page.theme_mode = ft.ThemeMode.LIGHT
     page.padding = 20
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
 
-    rows, cols = 30, 30
-    # rows, cols = 20, 20
-    cell_size: int = 15
-    # cell_size: int = 25
-    selected_color: Colors = Colors.BLACK
-    grid: list = []
+    result_text: Text = Text(value="", size=20, weight=ft.FontWeight.BOLD)
 
-    def paint_cell(e) -> None:
-        print("inside Paint")
-        e.control.bgcolor = selected_color
-        e.control.update()
+    def check_password_strength(e) -> None:
+        password: str = str(e.control.value)
+        strength: int = 0
 
-    for _ in range(rows):
-        row: list = []
-        for _ in range(cols):
-            cell: Container = Container(
-                width=cell_size,
-                height=cell_size,
-                bgcolor=Colors.WHITE,
-                border=ft.border.all(width=0.5, color=Colors.GREY),
-                on_click=paint_cell,
-            )
-            row.append(cell)
-        grid.append(row)
+        if len(password) >= 8:
+            strength += 1
+        if re.search(pattern=r"[A-Z]", string=password):
+            strength += 1
+        if re.search(pattern=r"[a-z]", string=password):
+            strength += 1
+        if re.search(pattern=r"\d", string=password):
+            strength += 1
+        if re.search(pattern=r"[!@#$%^&*]", string=password):
+            strength += 1
 
-    grid_ui: Column = Column(
-        controls=[Row(controls=row, spacing=0) for row in grid],
-        spacing=0,
-    )
+        print(f"Strength: {strength}")
 
-    def clear_canvas(e) -> None:
-        print("inside clear")
-        for row in grid:
-            print("inside row")
-            for cell in row:
-                print("inside cell")
-                cell.bcolor = Colors.RED
-
-        print("Ready to update")
+        if strength <= 2:
+            result_text.value = "Weak 😟"
+            result_text.color = "red"
+        elif strength == 3 or strength == 4:
+            result_text.value = "Midium 🤨"
+            result_text.color = "yellow"
+        else:
+            result_text.value = "Strong 💪"
+            result_text.color = "green"
         page.update()
 
-    page.add(grid_ui, ElevatedButton(text="Clear", on_click=clear_canvas))
+    password_input: TextField = TextField(
+        label="Enter Password",
+        password=True,
+        can_reveal_password=True,
+        on_change=check_password_strength,
+        width=300,
+    )
 
-    page.add()
+    page.add(password_input, result_text)
 
 
 if __name__ == "__main__":
